@@ -54,7 +54,7 @@
                 </constraints>
                 <properties>
                   <font size="14" style="1"/>
-                  <text value="Part"/>
+                  <text value="Email"/>
                 </properties>
               </component>
               <component id="83f1" class="javax.swing.JTextField" binding="parttxt">

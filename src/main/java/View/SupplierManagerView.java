@@ -68,7 +68,7 @@ public class SupplierManagerView extends JDialog {
                 Part = parttxt.getText();
 
                 try {
-                    pst = con.prepareStatement("INSERT INTO suppliers (supplier_id, name, contact_info, part) VALUES (?, ?, ?, ?)");
+                    pst = con.prepareStatement("INSERT INTO suppliers (supplier_id, name, contact_info, email) VALUES (?, ?, ?, ?)");
                     pst.setString(1, ID);
                     pst.setString(2, Name);
                     pst.setString(3, Contact);

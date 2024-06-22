@@ -10,7 +10,7 @@ public class Supplierdb {
     public Connection connect() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost/oop_project", "root", "");
+            con = DriverManager.getConnection("jdbc:mysql://localhost/project", "root", "");
             System.out.println("Connection Success");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
