@@ -1,16 +1,16 @@
 package View;
 
 import Controller.Supplierdb;
+import net.proteanit.sql.DbUtils;
 
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.*;
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import net.proteanit.sql.DbUtils;
-import javax.swing.table.DefaultTableModel;
 
 public class SupplierManagerView extends JDialog {
     private JPanel contentPane;
@@ -18,71 +18,60 @@ public class SupplierManagerView extends JDialog {
     private JTextField IDtxt;
     private JTextField Nametxt;
     private JTextField contacttxt;
-    private JTextField parttxt;
+    private JTextField emailttxt;
     private JTable table1;
     private JButton deleteSupplierButton;
     private JButton updateSupplierButton;
     private JButton addSupplierButton;
     private JScrollPane table_1;
 
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Supplier Manager");
-        frame.setContentPane(new SupplierManagerView().Main);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
-    }
-
     Connection con;
     PreparedStatement pst;
 
-    void table_Load(){
-        try{
-            pst=con.prepareStatement("SELECT * FROM `suppliers`");
-            ResultSet rs= pst.executeQuery();
-            table1.setModel(DbUtils.resultSetToTableModel(rs));
-
-        }catch (SQLException ex){
-            ex.printStackTrace();
-
-        }
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            JFrame frame = new JFrame("Supplier Manager");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setContentPane(new SupplierManagerView().Main);
+            frame.pack();
+            frame.setVisible(true);
+        });
     }
 
     public SupplierManagerView() {
-        Supplierdb supplierdb=new Supplierdb();
+        Supplierdb supplierdb = new Supplierdb();
         con = supplierdb.connect();
-        setSize(2000, 1000); // Width 800, Height 600
+        setSize(800, 600); // Set appropriate initial size
 
+        // Initialize table1
+        table1 = new JTable();
         table1.setPreferredScrollableViewportSize(new Dimension(500, 100));
+        table_1.setViewportView(table1); // Assuming table_1 is your JScrollPane
+
         table_Load();
-        //loadSupplierData(supplierdb);
 
         addSupplierButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String ID, Name, Contact, Part;
+                String ID, Name, Contact, Email;
 
                 ID = IDtxt.getText();
                 Name = Nametxt.getText();
                 Contact = contacttxt.getText();
-                Part = parttxt.getText();
+                Email = emailttxt.getText();
 
                 try {
                     pst = con.prepareStatement("INSERT INTO suppliers (supplier_id, name, contact_info, email) VALUES (?, ?, ?, ?)");
                     pst.setString(1, ID);
                     pst.setString(2, Name);
                     pst.setString(3, Contact);
-                    pst.setString(4, Part);
+                    pst.setString(4, Email);
                     pst.executeUpdate();
                     JOptionPane.showMessageDialog(null, "Record Added");
                     table_Load();
 
-                    //clear text field
-                    IDtxt.setText("");
-                    Nametxt.setText("");
-                    contacttxt.setText("");
-                    parttxt.setText("");
-                    IDtxt.requestFocus();
+                    // Clear text fields
+                    clearFields();
 
                 } catch (SQLException e2) {
                     e2.printStackTrace();
@@ -90,33 +79,30 @@ public class SupplierManagerView extends JDialog {
                 }
             }
         });
+
         updateSupplierButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String ID, Name, Contact, Part;
+                String ID, Name, Contact, Email;
 
                 ID = IDtxt.getText();
                 Name = Nametxt.getText();
                 Contact = contacttxt.getText();
-                Part = parttxt.getText();
+                Email = emailttxt.getText();
 
-                try{
-                   pst= con.prepareStatement("UPDATE suppliers SET name=?, contact_info=?, part=? WHERE supplier_id=? ");
+                try {
+                    pst = con.prepareStatement("UPDATE suppliers SET name=?, contact_info=?, email=? WHERE supplier_id=? ");
                     pst.setString(1, Name);
                     pst.setString(2, Contact);
-                    pst.setString(3, Part);
+                    pst.setString(3, Email);
                     pst.setString(4, ID);
 
-                   pst.executeUpdate();
-                   JOptionPane.showMessageDialog(null,"Record Update");
-                   table_Load();
-                    IDtxt.setText("");
-                    Nametxt.setText("");
-                    contacttxt.setText("");
-                    parttxt.setText("");
+                    pst.executeUpdate();
+                    JOptionPane.showMessageDialog(null, "Record Updated");
+                    table_Load();
+                    clearFields();
 
-
-                }catch (SQLException ex1){
+                } catch (SQLException ex1) {
                     ex1.printStackTrace();
                     JOptionPane.showMessageDialog(null, "Error updating record: " + ex1.getMessage());
 
@@ -128,7 +114,7 @@ public class SupplierManagerView extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String ID;
-                ID=IDtxt.getText();
+                ID = IDtxt.getText();
 
                 int confirmDialog = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this record?", "Confirm Delete", JOptionPane.YES_NO_OPTION);
                 if (confirmDialog == JOptionPane.YES_OPTION) {
@@ -139,12 +125,7 @@ public class SupplierManagerView extends JDialog {
                         pst.executeUpdate();
                         JOptionPane.showMessageDialog(null, "Record Deleted");
 
-
-                        IDtxt.setText("");
-                        Nametxt.setText("");
-                        contacttxt.setText("");
-                        parttxt.setText("");
-
+                        clearFields();
                         table_Load();
                     } catch (SQLException ex3) {
                         ex3.printStackTrace();
@@ -153,6 +134,7 @@ public class SupplierManagerView extends JDialog {
                 }
             }
         });
+
         table1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -161,8 +143,28 @@ public class SupplierManagerView extends JDialog {
                 IDtxt.setText(model.getValueAt(row, 0).toString());
                 Nametxt.setText(model.getValueAt(row, 1).toString());
                 contacttxt.setText(model.getValueAt(row, 2).toString());
-                parttxt.setText(model.getValueAt(row, 3).toString());
+                emailttxt.setText(model.getValueAt(row, 3).toString());
             }
         });
+    }
+
+    // Method to load data into the table
+    void table_Load() {
+        try {
+            pst = con.prepareStatement("SELECT * FROM `suppliers`");
+            ResultSet rs = pst.executeQuery();
+            table1.setModel(DbUtils.resultSetToTableModel(rs));
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    // Method to clear text fields
+    void clearFields() {
+        IDtxt.setText("");
+        Nametxt.setText("");
+        contacttxt.setText("");
+        emailttxt.setText("");
     }
 }
