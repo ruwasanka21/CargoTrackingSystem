@@ -10,7 +10,7 @@ import java.sql.SQLException;
 
 public class AddPartForm {
 
-    private JPanel Main;
+    public JPanel Main;
     private JTextField partIDtxt;
     private JTextField partNametxt;
     private JTextField destxt;

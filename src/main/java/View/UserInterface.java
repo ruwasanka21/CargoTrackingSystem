@@ -3,7 +3,6 @@ package View;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import View.*;
 
 public class UserInterface {
     private JPanel Main;
@@ -14,6 +13,9 @@ public class UserInterface {
     private JButton allocateToCustomerJobsButton;
     private JButton generateMonthlyReportsButton;
     private JButton notifyCustomerButton;
+    private JButton addJobButton;
+    private JButton addPartButton;
+    private JLabel deslbl;
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
@@ -26,6 +28,8 @@ public class UserInterface {
     }
 
     public UserInterface() {
+
+        
         manageCustomerOrdersButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -66,6 +70,19 @@ public class UserInterface {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ShipShapeNotification();
+            }
+        });
+        addJobButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                openAddJobs();
+            }
+        });
+        addPartButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                openAddparts();
+
             }
         });
     }
@@ -113,5 +130,25 @@ public class UserInterface {
     private void ShipShapeNotification() {
         ShipShapeNotification();
 
+    }
+
+    private void openAddJobs() {
+        SwingUtilities.invokeLater(() -> {
+            JFrame frame = new JFrame("Manage Orders");
+            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            frame.setContentPane(new AddJobs().Main);
+            frame.pack();
+            frame.setVisible(true);
+        });
+    }
+
+    private void openAddparts() {
+        SwingUtilities.invokeLater(() -> {
+            JFrame frame = new JFrame("Manage Orders");
+            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            frame.setContentPane(new AddPartForm().Main);
+            frame.pack();
+            frame.setVisible(true);
+        });
     }
 }

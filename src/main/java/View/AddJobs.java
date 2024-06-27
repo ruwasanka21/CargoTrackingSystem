@@ -21,7 +21,7 @@ public class AddJobs {
     private JTextField jonNametxt;
     private JTextField jobdestxt;
     private JButton addjobbtn;
-    private JPanel Main;
+    public JPanel Main;
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
