@@ -14,7 +14,7 @@ import java.sql.*;
 
 public class SupplierManagerView extends JDialog {
     private JPanel contentPane;
-    private JPanel Main;
+    public JPanel Main;
     private JTextField IDtxt;
     private JTextField Nametxt;
     private JTextField contacttxt;

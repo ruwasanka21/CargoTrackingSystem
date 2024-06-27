@@ -3,6 +3,7 @@ package View;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import View.*;
 
 public class UserInterface {
     private JPanel Main;
@@ -16,7 +17,7 @@ public class UserInterface {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            JFrame frame = new JFrame("Supplier Manager");
+            JFrame frame = new JFrame("User Interface");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setContentPane(new UserInterface().Main);
             frame.pack();
@@ -28,85 +29,89 @@ public class UserInterface {
         manageCustomerOrdersButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ManageOrdersView();
+                openManageOrdersView();
             }
         });
         manageSuppliersButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 openSupplierManagerView();
-
             }
         });
         manageInventoryButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ManageInventoryForm(); // Corrected method call
+                ManageInventoryForm();
             }
         });
         manageEmployeesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ManageEmployeesForm(); // Corrected method call
+                ManageEmployeesForm();
             }
         });
         allocateToCustomerJobsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                EmailEmployeeForm(); // Corrected method call
+                EmailEmployeeForm();
             }
         });
         generateMonthlyReportsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                MonthlySalesReportForm(); // Corrected method call
+                MonthlySalesReportForm();
             }
         });
         notifyCustomerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ShipShapeNotification(); // Corrected method call
+                ShipShapeNotification();
             }
         });
     }
 
-    private void ManageOrdersView() {
-        new ManageOrdersView();
+    private void openManageOrdersView() {
+        SwingUtilities.invokeLater(() -> {
+            JFrame frame = new JFrame("Manage Orders");
+            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            frame.setContentPane(new ManageOrdersView().Main);
+            frame.pack();
+            frame.setVisible(true);
+        });
     }
 
     private void openSupplierManagerView() {
         SwingUtilities.invokeLater(() -> {
             SupplierManagerView supplierManagerView = new SupplierManagerView();
+            supplierManagerView.setContentPane(supplierManagerView.Main);
+            supplierManagerView.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+            supplierManagerView.pack();
             supplierManagerView.setVisible(true);
         });
     }
 
-
-
-
     private void ManageInventoryForm() {
+        new ManageInventoryForm();
 
-         new ManageInventoryForm();
     }
 
     private void ManageEmployeesForm() {
+        new ManageEmployeesForm();
 
-         new ManageEmployeesForm();
     }
 
     private void EmailEmployeeForm() {
-
         new EmailEmployeeForm();
+
     }
 
     private void MonthlySalesReportForm() {
+        new MonthlySalesReportForm();
 
-         new MonthlySalesReportForm();
     }
 
     private void ShipShapeNotification() {
+        ShipShapeNotification();
 
-         new ShipShapeNotification();
     }
-
 }

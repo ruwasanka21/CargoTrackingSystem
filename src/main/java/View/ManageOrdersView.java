@@ -18,7 +18,7 @@ public class ManageOrdersView {
     private JButton editOrderButton;
     private JButton removeOrderButton;
     private JButton assignOrderButton;
-    private JPanel Main;
+    public JPanel Main;
     private JTextField partidtxt;
     private JTextField quntitytxt;
     private JTextField costtxt;
