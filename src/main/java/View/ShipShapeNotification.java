@@ -11,21 +11,21 @@ import java.util.Properties;
 
 public class ShipShapeNotification extends JFrame {
 
-    // Email Authentication
-    private static final String EMAIL_USERNAME = "ruwasanka21@gmail.com"; // Replace with your Gmail address
-    private static final String EMAIL_PASSWORD = "orxq rgph tcoa wcic"; // Replace with your Gmail password
 
-    // Database Connection Settings
+    private static final String EMAIL_USERNAME = "ruwasanka21@gmail.com";
+    private static final String EMAIL_PASSWORD = "orxq rgph tcoa wcic";
+
+
     String url = "jdbc:mysql://localhost:3306/project";
     String user = "root";
     String password = "";
 
-    // GUI Components
+
     private JTextField orderIdField;
     private JButton sendButton;
 
     public static void main(String[] args) {
-        // Run the application on the Event Dispatch Thread (EDT)
+
         SwingUtilities.invokeLater(() -> new ShipShapeNotification());
     }
 
@@ -90,7 +90,7 @@ public class ShipShapeNotification extends JFrame {
         // Frame settings
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(500, 200);
-        setLocationRelativeTo(null); // Center the frame
+        setLocationRelativeTo(null);
         setVisible(true);
     }
 

@@ -9,9 +9,9 @@ import java.sql.*;
 
 public class ManageJobAssignmentsForm extends JFrame {
     private static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/project"; // Replace "project" with your database name
-    private static final String USER = "root"; // Replace with your MySQL username
-    private static final String PASSWORD = ""; // Replace with your MySQL password
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/project";
+    private static final String USER = "root";
+    private static final String PASSWORD = "";
 
     private JTable jobAssignmentsTable;
     private DefaultTableModel tableModel;

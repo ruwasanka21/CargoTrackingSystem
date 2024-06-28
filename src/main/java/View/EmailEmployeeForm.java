@@ -19,8 +19,8 @@ public class EmailEmployeeForm extends JFrame {
     private static final String SMTP_HOST = "smtp.gmail.com";
     private static final int SMTP_PORT = 587;
 
-    private static final String EMAIL_USERNAME = "ruwasanka21@gmail.com"; // Fill with your email
-    private static final String EMAIL_PASSWORD = "yyxm prxa dqwy uenc"; // Fill with your email password
+    private static final String EMAIL_USERNAME = "ruwasanka21@gmail.com"; 
+    private static final String EMAIL_PASSWORD = "yyxm prxa dqwy uenc";
 
     private JTextField jobIdField;
     private JTextField empIdField;

@@ -67,16 +67,16 @@ public class ManageOrdersView {
             public void actionPerformed(ActionEvent e) {
                 // Implement add order functionality
                 String orderId = orderIdtxt.getText(); // Get order ID from text field
-                String customerId = customeridtxt.getText(); // Get customer ID from text field or another input
+                String customerId = customeridtxt.getText(); // Get customer ID from text field
                 String partId = partidtxt.getText(); // Get part ID from text field or another input
                 double totalCost = Double.parseDouble(costtxt.getText());
                 int quantity = Integer.parseInt(quntitytxt.getText());
                 String status = orderStatustxt.getText();
                 String customerName = customernametxt.getText();
                 String customerEmail = customeremailtxt.getText();
-                // Get other fields as needed
 
-                // Example of inserting into the database
+
+
                 try {
                     Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
                     PreparedStatement statement = connection.prepareStatement("INSERT INTO orders (order_id, customer_id,customerName,customerEmail, part_id, order_date, status, total_cost, quantity) VALUES (?, ?, ?, ?, ?, ?, ?,?,?)");
@@ -86,9 +86,9 @@ public class ManageOrdersView {
                     statement.setString(4, customerEmail);
                     statement.setString(5, partId);
                     statement.setDate(6, new java.sql.Date(System.currentTimeMillis())); // Example for order_date
-                    statement.setString(7, status); // Example for status
-                    statement.setDouble(8, totalCost); // Example for total_cost
-                    statement.setInt(9, quantity); // Example for quantity
+                    statement.setString(7, status);
+                    statement.setDouble(8, totalCost);
+                    statement.setInt(9, quantity);
 
                     int rowsInserted = statement.executeUpdate();
                     if (rowsInserted > 0) {
@@ -112,9 +112,9 @@ public class ManageOrdersView {
             public void actionPerformed(ActionEvent e) {
                 // Implement edit order functionality
                 String orderId = orderIdtxt.getText(); // Get order ID from text field
-                String newStatus = orderStatustxt.getText(); // Get new status from text field or another input
+                String newStatus = orderStatustxt.getText(); // Get new status from text field
 
-                // Example of updating the database
+
                 try {
                     Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
                     PreparedStatement statement = connection.prepareStatement("UPDATE orders SET status = ? WHERE order_id = ?");
@@ -144,7 +144,7 @@ public class ManageOrdersView {
                 // Implement remove order functionality
                 String orderId = orderIdtxt.getText(); // Get order ID from text field
 
-                // Example of deleting from the database
+
                 try {
                     Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
                     PreparedStatement statement = connection.prepareStatement("DELETE FROM orders WHERE order_id = ?");

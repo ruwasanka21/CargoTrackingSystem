@@ -38,13 +38,12 @@ public class AddPartForm {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Implement add part functionality
-                String partId = partIDtxt.getText(); // Get part ID from text field
-                String name = partNametxt.getText(); // Get name from text field
-                String description = destxt.getText(); // Get description from text field
-                String supplierId = supptxt.getText(); // Get supplier ID from text field
-                int stockQuantity = Integer.parseInt(stocktxt.getText()); // Get stock quantity from text field
+                String partId = partIDtxt.getText();
+                String name = partNametxt.getText();
+                String description = destxt.getText();
+                String supplierId = supptxt.getText();
+                int stockQuantity = Integer.parseInt(stocktxt.getText());
 
-                // Example of inserting into the database
                 try {
                     Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
                     PreparedStatement statement = connection.prepareStatement("INSERT INTO parts (part_id, name, description, supplier_id, stock_quantity) VALUES (?, ?, ?, ?, ?)");

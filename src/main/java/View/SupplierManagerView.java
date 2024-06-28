@@ -41,12 +41,12 @@ public class SupplierManagerView extends JDialog {
     public SupplierManagerView() {
         Supplierdb supplierdb = new Supplierdb();
         con = supplierdb.connect();
-        setSize(800, 600); // Set appropriate initial size
+        setSize(800, 600);
 
         // Initialize table1
         table1 = new JTable();
         table1.setPreferredScrollableViewportSize(new Dimension(500, 100));
-        table_1.setViewportView(table1); // Assuming table_1 is your JScrollPane
+        table_1.setViewportView(table1);
 
         table_Load();
 

@@ -41,7 +41,7 @@ public class AddJobs {
                 String jobname = jonNametxt.getText();
                 String jobdes = jobdestxt.getText();// Get name from text field
 
-                // Example of inserting into the database
+
                 try {
                     Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
                     PreparedStatement statement = connection.prepareStatement("INSERT INTO jobs (job_id, job_name, job_description) VALUES (?, ?, ?)");
