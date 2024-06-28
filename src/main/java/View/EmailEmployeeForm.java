@@ -19,7 +19,7 @@ public class EmailEmployeeForm extends JFrame {
     private static final String SMTP_HOST = "smtp.gmail.com";
     private static final int SMTP_PORT = 587;
 
-    private static final String EMAIL_USERNAME = "ruwasanka21@gmail.com"; 
+    private static final String EMAIL_USERNAME = "ruwasanka21@gmail.com";
     private static final String EMAIL_PASSWORD = "yyxm prxa dqwy uenc";
 
     private JTextField jobIdField;
@@ -72,9 +72,12 @@ public class EmailEmployeeForm extends JFrame {
             // Fetch employee details from the database
             Employee employee = fetchEmployeeDetails(empId);
 
-            if (employee != null) {
+            // Fetch job details from the database
+            Job job = fetchJobDetails(jobId);
+
+            if (employee != null && job != null) {
                 // Send email
-                sendEmail(employee, jobId);
+                sendEmail(employee, job);
 
                 JOptionPane.showMessageDialog(EmailEmployeeForm.this,
                         "Email sent successfully!",
@@ -83,8 +86,8 @@ public class EmailEmployeeForm extends JFrame {
                 );
             } else {
                 JOptionPane.showMessageDialog(EmailEmployeeForm.this,
-                        "Employee not found. Please enter a valid Employee ID.",
-                        "Employee Not Found",
+                        "Employee or Job not found. Please enter valid IDs.",
+                        "Not Found",
                         JOptionPane.ERROR_MESSAGE
                 );
             }
@@ -163,7 +166,45 @@ public class EmailEmployeeForm extends JFrame {
         return null;
     }
 
-    private void sendEmail(Employee employee, int jobId) {
+    private Job fetchJobDetails(int jobId) {
+        try {
+            // Register JDBC driver
+            Class.forName(JDBC_DRIVER);
+
+            // Open a connection
+            Connection connection = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+
+            // Create a statement
+            Statement statement = connection.createStatement();
+
+            // Execute the query to fetch the job from the database
+            String query = "SELECT * FROM jobs WHERE job_id = " + jobId;
+            ResultSet resultSet = statement.executeQuery(query);
+
+            // Check if the job exists
+            if (resultSet.next()) {
+                // Retrieve the job details
+                String jobName = resultSet.getString("job_name");
+                String jobDescription = resultSet.getString("job_description");
+
+                // Create and return the Job object
+                return new Job(jobId, jobName, jobDescription);
+            }
+
+            // Close the resources
+            resultSet.close();
+            statement.close();
+            connection.close();
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return null;
+    }
+
+    private void sendEmail(Employee employee, Job job) {
         Properties properties = new Properties();
         properties.put("mail.smtp.host", SMTP_HOST);
         properties.put("mail.smtp.port", SMTP_PORT);
@@ -182,7 +223,11 @@ public class EmailEmployeeForm extends JFrame {
             message.setFrom(new InternetAddress(EMAIL_USERNAME));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(employee.getEmail()));
             message.setSubject("New Job Allocation");
-            message.setText("Dear " + employee.getEmployeeName() + ",\n\nYou have been assigned a new job with Job ID " + jobId + ".\n\nBest regards,\nYour Company");
+            message.setText("Dear " + employee.getEmployeeName() + ",\n\nYou have been assigned a new job with the following details:\n\n" +
+                    "Job ID: " + job.getJobId() + "\n" +
+                    "Job Name: " + job.getJobName() + "\n" +
+                    "Job Description: " + job.getJobDescription() + "\n\n" +
+                    "Best regards,\nShipShape Company");
 
             Transport.send(message);
 
@@ -220,6 +265,35 @@ public class EmailEmployeeForm extends JFrame {
         @Override
         public String toString() {
             return "Employee ID: " + empId + ", Employee Name: " + employeeName + ", Email: " + email;
+        }
+    }
+
+    private static class Job {
+        private int jobId;
+        private String jobName;
+        private String jobDescription;
+
+        public Job(int jobId, String jobName, String jobDescription) {
+            this.jobId = jobId;
+            this.jobName = jobName;
+            this.jobDescription = jobDescription;
+        }
+
+        public int getJobId() {
+            return jobId;
+        }
+
+        public String getJobName() {
+            return jobName;
+        }
+
+        public String getJobDescription() {
+            return jobDescription;
+        }
+
+        @Override
+        public String toString() {
+            return "Job ID: " + jobId + ", Job Name: " + jobName + ", Job Description: " + jobDescription;
         }
     }
 
